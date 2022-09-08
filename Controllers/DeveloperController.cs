@@ -52,34 +52,34 @@ namespace WebApiSqlite.Controllers
 
         // PUT: api/Developer/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutDeveloper(int id, Developer developer)
-        {
-            if (id != developer.DeveloperId)
-            {
-                return BadRequest();
-            }
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutDeveloper(int id, Developer developer)
+        //{
+        //    if (id != developer.DeveloperId)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            _context.Entry(developer).State = EntityState.Modified;
+        //    _context.Entry(developer).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!DeveloperExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!DeveloperExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
         // POST: api/Developer
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
