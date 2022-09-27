@@ -16,6 +16,23 @@ namespace WebApiSqlite.Models
                 return $"{Count.ToString().PadLeft(3,'0')}/{Year}"; 
             } 
         }
+
+        public int ECOCount { get; set; }
+        public int ECOYear { get; set; }    
+        public bool ECOSelected { get; set; }
+
+        [NotMapped]
+        public string ECO
+        {
+            get
+            {
+                if(ECOSelected)
+                {
+                    return $"{ECOCount.ToString().PadLeft(3, '0')}/{ECOYear}";
+                }
+                return string.Empty;
+            }
+        }
     }
 
     public class YearCount

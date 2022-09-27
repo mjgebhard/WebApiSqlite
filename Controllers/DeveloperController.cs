@@ -50,36 +50,35 @@ namespace WebApiSqlite.Controllers
             return developer;
         }
 
-        // PUT: api/Developer/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutDeveloper(int id, Developer developer)
-        //{
-        //    if (id != developer.DeveloperId)
-        //    {
-        //        return BadRequest();
-        //    }
+        [HttpGet("SelectEcoById/{id}")]
+        public async Task<ActionResult<Developer>> SelectEcoById(int id)
+        {
+            var developer = await _context.Developers.FindAsync(id);
+            if (developer == null)
+            {
+                return NotFound();
+            }
 
-        //    _context.Entry(developer).State = EntityState.Modified;
+            var values = await GenerateEcoByIdAsync(id);
+            developer.ECOYear = values.Year;
+            developer.ECOCount = values.Count;
+            developer.ECOSelected = true;
 
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!DeveloperExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+            await _context.SaveChangesAsync();
 
-        //    return NoContent();
-        //}
+            return developer;
+        }
+
+        private async Task<YearCount> GenerateEcoByIdAsync(int id)
+        {
+            if (!await _context.Developers.AnyAsync(d => d.ECOYear == DateTime.Now.Year))
+            {
+                return new YearCount() { Count = 1, Year = DateTime.Now.Year };
+            }
+
+            int max = await _context.Developers.Where(d => d.ECOYear == DateTime.Now.Year).MaxAsync(d => d.ECOCount) + 1;
+            return new YearCount() { Count = max, Year = DateTime.Now.Year };
+        }
 
         // POST: api/Developer
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -136,5 +135,37 @@ namespace WebApiSqlite.Controllers
         {
             return (_context.Developers?.Any(e => e.DeveloperId == id)).GetValueOrDefault();
         }
+
+
+        // PUT: api/Developer/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutDeveloper(int id, Developer developer)
+        //{
+        //    if (id != developer.DeveloperId)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    _context.Entry(developer).State = EntityState.Modified;
+
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!DeveloperExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+        //    return NoContent();
+        //}
     }
 }
