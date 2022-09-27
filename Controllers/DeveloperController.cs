@@ -58,13 +58,15 @@ namespace WebApiSqlite.Controllers
             {
                 return NotFound();
             }
+            if(!developer.ECOSelected)
+            {
+                var values = await GenerateEcoByIdAsync(id);
+                developer.ECOYear = values.Year;
+                developer.ECOCount = values.Count;
+                developer.ECOSelected = true;
 
-            var values = await GenerateEcoByIdAsync(id);
-            developer.ECOYear = values.Year;
-            developer.ECOCount = values.Count;
-            developer.ECOSelected = true;
-
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
 
             return developer;
         }
