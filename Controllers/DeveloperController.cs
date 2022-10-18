@@ -50,8 +50,8 @@ namespace WebApiSqlite.Controllers
             return developer;
         }
 
-        [HttpGet("GenearteEcoById/{id}")]
-        public async Task<ActionResult<Developer>> GenearteEcoById(int id)
+        [HttpGet("GenerateEcoById/{id}")]
+        public async Task<ActionResult<Developer>> GenerateEcoById(int id)
         {
             var developer = await _context.Developers.FindAsync(id);
             if (developer == null)
