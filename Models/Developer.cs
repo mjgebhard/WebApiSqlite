@@ -2,7 +2,7 @@
 
 namespace WebApiSqlite.Models
 {
-    public class Developer
+    public partial class Developer
     {
         public int DeveloperId { get; set; }
         public int Count { get; set; }
@@ -33,11 +33,27 @@ namespace WebApiSqlite.Models
                 return string.Empty;
             }
         }
+        public List<ActionItem>? ActionItems { get; set; }
     }
+
 
     public class YearCount
     {
         public int Count { get; set; }
         public int Year { get; set; }
+    }
+
+    public class ActionItem
+    {
+        public int ActionItemId { get; set; }
+        public string? Tilte { get; set; }
+        public string? Description { get; set; }
+        public string? State { get; set; }
+        public DateTime? OpenDate { get; set; }
+        public DateTime? PlanDate { get; set; }
+        public DateTime? CloseDate { get; set; }
+
+        public int DeveloperId { get; set; }
+        public Developer? Developer { get; set; }
     }
 }
